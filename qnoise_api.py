@@ -1,6 +1,8 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from qNoisePy import qNoise
+import os
+
 tokenList = ['a701165f12b9e3e2ebfef521fc2835b111b2fc21','1f686d8d973c21affc9b37011978c582f7885881']
 
 app = Flask(__name__)
@@ -56,6 +58,7 @@ def qNoise_api():
 
 if __name__ == "__main__":
 	# Threaded option to enable multiple instances for multiple user access support
-	app.run(threaded=True, port=5111,host='0.0.0.0')
+	#app.run(threaded=True, port=5111,host='0.0.0.0')
 	#app.run(debug=True,port=5111,host='0.0.0.0')
-	
+	app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+
