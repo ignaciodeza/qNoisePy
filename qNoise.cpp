@@ -65,7 +65,7 @@ void qNoiseGen::seedTimer() {
 // Gaussian White noise
 double qNoiseGen::gaussWN() { return randNorm(generator); }
 
-// Ornstein-Uhlembeck noise type.
+// Ornstein-Uhlenbeck noise type.
 double qNoiseGen::orsUhl(double eta, double tau, double H) {
   return eta * exp(-H / tau) +
          sqrt((1 - exp(-2 / tau * H)) / 2 / tau) * randNorm(generator);
@@ -85,8 +85,8 @@ double qNoiseGen::potQNoisePrime(double eta, double tau, double q) {
 
 /*qNoise.
  * This functions integrates a differential equation using the Heun Method
- * for q=1 it behaves like the orstein Uhlembeck noise
- * for q<1 it it is defined in a acotated support only (+/- etaCut)
+ * for q=1 it behaves like the Ornstein Uhlenbeck noise
+ * for q<1 it it is defined in a bounded support only (+/- etaCut)
  * for q>1 its statistics are more than gaussian tending (supra-gaussian)
  */
 double qNoiseGen::qNoise(double eta, double tau, double q, double H,

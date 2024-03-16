@@ -86,7 +86,7 @@ std::vector<double> OrnsteinUhlenbeck(double tau,int N=10, double H=0.01, int te
         x = ini_cond;
 
     for (int i = -temp_N; i < N ; i++) {
-            x = gen.orsUhl(x, tau, H);  //call to Orstein Uhlenbeck
+            x = gen.orsUhl(x, tau, H);  //call to Ornstein Uhlenbeck
         if (i >= 0)
             output[i] = x;   //Write to vector for output
     }
@@ -140,6 +140,6 @@ PYBIND11_MODULE(qNoisePy,m)
   m.doc() = "qNoise for Python";
   m.def("qNoise", &py_qnoise, "generates N instances of qNoise with tau and q given" , py::arg("tau"), py::arg("q"), 
   py::arg("N") = 10, py::arg("H") = 0.01, py::arg("temp_N") = 0, py::arg("norm")=false);
-    m.def("OrnsteinUhlenbeck", &py_orsUhl, "generates N instances of Orstein-Uhlenbeck noise with tau given", py::arg("tau"), 
+    m.def("OrnsteinUhlenbeck", &py_orsUhl, "generates N instances of Ornstein-Uhlenbeck noise with tau given", py::arg("tau"), 
   py::arg("N") = 10, py::arg("H") = 0.01, py::arg("temp_N") = 0, py::arg("white_noise")=false, py::arg("ini_cond")=0);
 }

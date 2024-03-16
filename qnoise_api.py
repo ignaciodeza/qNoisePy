@@ -29,7 +29,7 @@ def test_api():
 
 @app.route('/', methods=['OPTIONS','POST'])
 def qNoise_api():
-	'''Get the ICMS description from the code. The code must be in the correct format'''
+	'''Generate non-Gaussian Coloured data with the data provided in the JSON file'''
 	JSON = request.get_json()
 	if JSON is not None and JSON['apikey'] not in  tokenList:
 		return {'success' : 'false', 'error':'invalid token'}
