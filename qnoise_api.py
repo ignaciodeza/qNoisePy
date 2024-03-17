@@ -44,9 +44,17 @@ def qNoise_api():
 		params['norm'] = JSON['norm']
 	except:
 		pass
+	try:
+		useDict = JSON['usedict'] == 'true'
+	except:
+		useDict = False
+
 
 	A = qNoise(**params)
-	R = {'success' : 'true','tau':params['tau'],'q':params['q'],'N':params['N'],'data':list(A)}
+	if useDict:
+		R = {'success' : 'true','tau':params['tau'],'q':params['q'],'N':params['N'],'data':[{'index':i,'value':x} for i,x in enumerate(list(A))]}
+	else:
+		R = {'success' : 'true','tau':params['tau'],'q':params['q'],'N':params['N'],'data':list(A)}
 	return R
 
 if __name__ == "__main__":
