@@ -1,19 +1,12 @@
 from flask import Flask, request
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from qNoisePy import qNoise
 import os
 
 tokenList = ['a701165f12b9e3e2ebfef521fc2835b111b2fc21','1f686d8d973c21affc9b37011978c582f7885881']
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*", "methods": "GET,HEAD,PUT,PATCH,POST,DELETE", "allowedHeaders": ["Content-Type"]}})
-app.config['CORS_HEADERS'] = 'Content-Type'
-
-@app.after_request
-def after_request(response):
-	header = response.headers
-	header['Access-Control-Allow-Origin'] = '*'
-	return response
+cors = CORS(app)
 
 @app.route('/', methods=['OPTIONS','GET'])
 def test_api():
@@ -30,7 +23,6 @@ def test_api():
 	return msg
 
 @app.route('/', methods=['OPTIONS','POST'])
-@cross_origin()
 def qNoise_api():
 	'''Generate non-Gaussian Coloured data with the data provided in the JSON file'''
 	JSON = request.get_json()
