@@ -30,6 +30,7 @@ def test_api():
 	return msg
 
 @app.route('/', methods=['OPTIONS','POST'])
+@cross_origin()
 def qNoise_api():
 	'''Generate non-Gaussian Coloured data with the data provided in the JSON file'''
 	JSON = request.get_json()
