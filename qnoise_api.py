@@ -10,16 +10,20 @@ cors = CORS(app)
 
 @app.route('/', methods=['OPTIONS','GET'])
 def test_api():
-	tau = 0.01
-	q = 1.1
-	N = 10
-	A = qNoise(tau=tau,q=q,N=N)
-	R = {'success' : 'true','tau':tau,'q':q,'N':N,'data':list(A)}
-	msg=''
-	msg+='<h1>qNoise API is working!</h1>'
-	msg+='<h2>Please use via POST, send JSON file with tau, q, and N. See documentation.</h2>'
-	msg+='<h3>Here are 10 random numbers, as a treat:</h3>'
-	msg+="<br>".join(["{0:2f}".format(x) for x in R['data']])
+	args = request.args
+	args = args.to_dict()
+
+
+	try:
+		tau = float(args['tau'])
+		q = float(args['q'])
+		N = int(args['N'])
+		R = qNoise(tau=tau,q=q,N=N)
+		msg="\n".join(["{0:0.5f}".format(x) for x in list(R)])
+	except:
+		msg=''
+		msg+='<h1>qNoise API</h1>'
+		msg+='<h2>use: pass parameters on the web address e.g. : http://{hosting-address}/?N=100&tau=10&q=1.2</h2>'
 	return msg
 
 @app.route('/', methods=['OPTIONS','POST'])
@@ -44,17 +48,9 @@ def qNoise_api():
 		params['norm'] = JSON['norm']
 	except:
 		pass
-	try:
-		useDict = JSON['usedict'] == 'true'
-	except:
-		useDict = False
-
 
 	A = qNoise(**params)
-	if useDict:
-		R = {'success' : 'true','tau':params['tau'],'q':params['q'],'N':params['N'],'data':[{'index':i,'value':x} for i,x in enumerate(list(A))]}
-	else:
-		R = {'success' : 'true','tau':params['tau'],'q':params['q'],'N':params['N'],'data':list(A)}
+	R = {'success' : 'true','tau':params['tau'],'q':params['q'],'N':params['N'],'data':list(A)}
 	return R
 
 if __name__ == "__main__":
